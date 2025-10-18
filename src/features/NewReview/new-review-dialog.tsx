@@ -8,10 +8,12 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 
 function NewReviewDialog({
+  autoCompleteOptions,
   isOpen,
   onClose,
   onSubmit,
 }: {
+  autoCompleteOptions: string[];
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -25,11 +27,12 @@ function NewReviewDialog({
             <Autocomplete
               id='film-search'
               sx={{ width: 300, mt: 4, mb: 2 }}
-              options={['dummy', 'dummy2', 'dummy3']}
+              options={autoCompleteOptions}
               renderInput={(params) => (
                 <TextField
                   {...params}
                   label='Search...'
+                  name='filmTitle'
                   slotProps={{
                     input: {
                       ...params.InputProps,
@@ -40,9 +43,10 @@ function NewReviewDialog({
               )}
             />
             <TextField
-              id='outlined-multiline-static'
+              id='review-text'
               sx={{ width: 300, mt: 2, mb: 2 }}
               label='Review'
+              name='review_text'
               multiline
               rows={4}
               placeholder='Your review...'

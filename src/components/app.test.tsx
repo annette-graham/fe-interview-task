@@ -8,3 +8,5 @@ describe('App', () => {
     expect(container).toBeInTheDocument();
   });
 });
+
+// TODO: add more tests if time allows
