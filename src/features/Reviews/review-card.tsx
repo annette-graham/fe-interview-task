@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -8,9 +9,16 @@ import Button from '@mui/material/Button';
 import type { Film } from '../../types';
 
 function ReviewCard({ film }: { film: Film }) {
+  const navigate = useNavigate();
+
   const director = film.cast.find((member) =>
     member.credits.includes('Director')
   )?.name;
+
+  const handleReadMore = () => {
+    const id = film.title.toLowerCase().replace(/\s+/g, '-'); // handle spaces
+    navigate(`/${id}`);
+  };
 
   return (
     <Card
@@ -40,7 +48,11 @@ function ReviewCard({ film }: { film: Film }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button sx={{ color: 'text.primary' }} size='small'>
+        <Button
+          sx={{ color: 'text.primary' }}
+          size='small'
+          onClick={handleReadMore}
+        >
           Read More
         </Button>
       </CardActions>

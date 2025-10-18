@@ -5,6 +5,7 @@ import { ThemeProvider, CssBaseline } from '@mui/material';
 
 import theme from './theme.ts';
 import App from './components/App.js';
+import ReviewDetails from './features/Reviews/review-details.js';
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <StrictMode>
@@ -13,6 +14,7 @@ createRoot(document.getElementById('root') as HTMLElement).render(
       <BrowserRouter>
         <Routes>
           <Route index element={<App />} />
+          <Route path='/:id' element={<ReviewDetails />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
