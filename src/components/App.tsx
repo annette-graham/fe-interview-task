@@ -1,14 +1,11 @@
 import { useState } from 'react';
 import Container from '@mui/material/Container';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
-import mubiLogo from '/logo.svg';
+import HeaderBar from './header-bar';
 import NewReviewDialog from '../features/NewReview/new-review-dialog';
 import ReviewCard from '../features/Reviews/review-card';
 import GenreFilter from '../features/Reviews/genre-filter';
@@ -68,29 +65,12 @@ const App = () => {
 
   return (
     <>
-      <AppBar position='static' color='primary'>
-        <Toolbar
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            p: 1,
-          }}
-        >
-          <Box>
-            <img src={mubiLogo} alt='Mubi logo' style={{ maxWidth: '70px' }} />
-          </Box>
-          <Typography variant='h1' sx={{ fontSize: 40, textAlign: 'center' }}>
-            Film Log
-          </Typography>
-          <IconButton
-            aria-label='add-review'
-            size='large'
-            onClick={handleClickOpenForm}
-          >
-            <AddCircleOutlineOutlinedIcon sx={{ fontSize: 40 }} />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+      <HeaderBar
+        buttonLabel='add-review'
+        clickHandler={handleClickOpenForm}
+        icon={<AddCircleOutlineOutlinedIcon sx={{ fontSize: 40 }} />}
+        title='Film Log'
+      />
 
       <Container sx={{ height: '100vh' }}>
         {reviewedFilms.length ? (

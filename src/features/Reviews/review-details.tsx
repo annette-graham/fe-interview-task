@@ -1,15 +1,13 @@
 import { useParams, useNavigate } from 'react-router';
 import Container from '@mui/material/Container';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
-import mubiLogo from '/logo.svg';
 import { useFilms } from '../../context/film-context';
+import HeaderBar from '../../components/header-bar';
 
 function ReviewDetails() {
   const navigate = useNavigate();
@@ -20,9 +18,7 @@ function ReviewDetails() {
 
   if (!film) {
     return (
-      <Container
-        sx={{ mt: 10, textAlign: 'center' }}
-      >
+      <Container sx={{ mt: 10, textAlign: 'center' }}>
         <IconButton
           aria-label='go-back'
           size='large'
@@ -50,32 +46,14 @@ function ReviewDetails() {
     navigate(`/`);
   };
 
-  // TODO: create separate and reusable <AppBar> component
   return (
     <>
-      <AppBar position='static' color='primary'>
-        <Toolbar
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            p: 1,
-          }}
-        >
-          <Box>
-            <img src={mubiLogo} alt='Mubi logo' style={{ maxWidth: '70px' }} />
-          </Box>
-          <Typography variant='h1' sx={{ fontSize: 40, textAlign: 'center' }}>
-            {title}
-          </Typography>
-          <IconButton
-            aria-label='delete-review'
-            size='large'
-            onClick={handleDeleteReview}
-          >
-            <DeleteOutlineOutlinedIcon sx={{ fontSize: 40 }} />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+      <HeaderBar
+        buttonLabel='delete-review'
+        clickHandler={handleDeleteReview}
+        icon={<DeleteOutlineOutlinedIcon sx={{ fontSize: 40 }} />}
+        title={title}
+      />
 
       <Container sx={{ height: '100vh' }}>
         <Box sx={{ mt: 4, display: 'flex', justifyContent: 'space-between' }}>
