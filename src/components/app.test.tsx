@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 
 import App from './App';
+import { FilmContextProvider } from '../context/film-context';
 
 describe('App', () => {
   beforeAll(() => {
@@ -12,7 +13,11 @@ describe('App', () => {
   });
 
   it('should render without crashing', () => {
-    const { container } = render(<App />);
+    const { container } = render(
+      <FilmContextProvider>
+        <App />
+      </FilmContextProvider>
+    );
     expect(container).toBeInTheDocument();
   });
 });
