@@ -27,7 +27,14 @@ function HeaderBar({ clickHandler, buttonLabel, icon, title }: HeaderBarProps) {
         <Box>
           <img src={mubiLogo} alt='Mubi logo' style={{ maxWidth: '70px' }} />
         </Box>
-        <Typography variant='h1' sx={{ fontSize: 40, textAlign: 'center' }}>
+        <Typography
+          variant='h1'
+          sx={{
+            fontSize: { xs: 25, sm: 30, md: 35 },
+            textAlign: 'center',
+            mr: 8,
+          }}
+        >
           {title}
         </Typography>
         <IconButton

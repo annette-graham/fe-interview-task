@@ -15,7 +15,7 @@ function ReviewDetails() {
   const { id } = useParams();
   const { reviewedFilms, deleteReview } = useFilms();
 
-  const film = reviewedFilms.find((f) => f.id === String(id));
+  const film = reviewedFilms.find((film) => film.id === String(id));
 
   if (!film) {
     return (
@@ -74,7 +74,7 @@ function ReviewDetails() {
             >
               <ArrowBackIosNewIcon sx={{ fontSize: 40 }} />
             </IconButton>
-            <Typography sx={{ mt: 8 }} variant='h5'>
+            <Typography sx={{ mt: 8, mr: 2 }} variant='h5'>
               {title}
             </Typography>
             <Typography variant='body1' sx={{ mt: 2 }}>
@@ -87,6 +87,7 @@ function ReviewDetails() {
             sx={{
               width: { xs: '100%', sm: '70%', md: '50%', lg: '700px' },
               mt: { xs: 4, sm: 0 },
+              m: { xs: 'auto', }
             }}
           >
             <img
