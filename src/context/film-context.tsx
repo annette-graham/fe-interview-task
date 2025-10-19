@@ -19,7 +19,7 @@ interface FilmContextType {
 
 const FilmContext = createContext<FilmContextType | undefined>(undefined);
 
-export function FilmContextProvider({ children }: { children: ReactNode }) {
+function FilmContextProvider({ children }: { children: ReactNode }) {
   const [availableFilms, setAvailableFilms] = useState<Film[]>([]);
   const [reviewedFilms, setReviewedFilms] = useState<Film[]>([]);
 
@@ -63,10 +63,12 @@ export function FilmContextProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function useFilms() {
+function useFilms() {
   const context = useContext(FilmContext);
   if (context === undefined) {
     throw new Error('useFilms must be used within a FilmContextProvider');
   }
   return context;
 }
+
+export { FilmContextProvider, useFilms };
