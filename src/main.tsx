@@ -6,17 +6,20 @@ import { ThemeProvider, CssBaseline } from '@mui/material';
 import theme from './theme.ts';
 import App from './components/App.js';
 import ReviewDetails from './features/Reviews/review-details.js';
+import { FilmContextProvider } from './context/film-context.tsx';
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <BrowserRouter>
-        <Routes>
-          <Route index element={<App />} />
-          <Route path='/:id' element={<ReviewDetails />} />
-        </Routes>
-      </BrowserRouter>
+      <FilmContextProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route index element={<App />} />
+            <Route path='/:id' element={<ReviewDetails />} />
+          </Routes>
+        </BrowserRouter>
+      </FilmContextProvider>
     </ThemeProvider>
   </StrictMode>
 );

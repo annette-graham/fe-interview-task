@@ -16,8 +16,7 @@ function ReviewCard({ film }: { film: Film }) {
   )?.name;
 
   const handleReadMore = () => {
-    const id = film.title.toLowerCase().replace(/\s+/g, '-'); // handle spaces
-    navigate(`/${id}`);
+    navigate(`/${film.id}`, { state: film });
   };
 
   return (
@@ -35,19 +34,21 @@ function ReviewCard({ film }: { film: Film }) {
         height='240'
         image={film.image_url}
         alt={film.title}
+        sx={{ flexShrink: 0 }}
       />
-      <CardContent sx={{ flexGrow: 1 }}>
+      <CardContent sx={{ flexGrow: 1, overflow: 'hidden' }}>
         <Typography variant='h6'>{film.title}</Typography>
         <Typography variant='body2'>
-          {' '}
           {director || 'Director Unknown'}
         </Typography>
         <Typography variant='body2'>{film.release_year}</Typography>
-        <Typography variant='body2' sx={{ mt: 4 }}>
-          {film.review_text}
+        <Typography variant='body2' sx={{ mt: 4, wordBreak: 'break-word' }}>
+          {film.review_text && film.review_text.length > 100
+            ? `${film.review_text.substring(0, 190)}...`
+            : film.review_text}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions sx={{ flexShrink: 0 }}>
         <Button
           sx={{ color: 'text.primary' }}
           size='small'

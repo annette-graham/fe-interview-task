@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Container from '@mui/material/Container';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,25 +9,13 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
 import mubiLogo from '/logo.svg';
-import { API_URL } from '../constants';
-import type { Film } from '../types';
 import NewReviewDialog from '../features/NewReview/new-review-dialog';
 import ReviewCard from '../features/Reviews/review-card';
+import { useFilms } from '../context/film-context';
 
 const App = () => {
+  const { availableFilms, reviewedFilms, addReview } = useFilms();  
   const [openForm, setOpenForm] = useState(false);
-  const [availableFilms, setAvailableFilms] = useState<Film[]>();
-  const [reviewedFilms, setReviewedFilms] = useState<Film[]>([]);
-
-  useEffect(() => {
-    const fetchFilmLogs = async () => {
-      const response = await fetch(API_URL);
-      const data: Film[] = await response.json();
-      setAvailableFilms(data);
-    };
-
-    fetchFilmLogs();
-  }, []);
 
   const handleClickOpenForm = () => {
     setOpenForm(true);
@@ -36,16 +24,14 @@ const App = () => {
     setOpenForm(false);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleReviewSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formValues = Object.fromEntries((formData as any).entries());
 
-    const selectedFilm = availableFilms?.find((film) => film.title === formValues.filmTitle);
-
-    const newAvailableFilms = availableFilms?.filter((film) => film.title !== formValues.filmTitle);    
-
-    setAvailableFilms(newAvailableFilms);
+    const selectedFilm = availableFilms?.find(
+      (film) => film.title === formValues.filmTitle
+    );
 
     if (!selectedFilm) {
       // TODO: show error to user or validate form input
@@ -57,8 +43,7 @@ const App = () => {
       ...selectedFilm,
       review_text: formValues.review_text as string,
     };
-
-    setReviewedFilms([...reviewedFilms, newReview]);
+    addReview(newReview);
     handleCloseForm();
   };
 
@@ -114,7 +99,7 @@ const App = () => {
         <NewReviewDialog
           isOpen={openForm}
           onClose={handleCloseForm}
-          onSubmit={handleSubmit}
+          onSubmit={handleReviewSubmit}
           autoCompleteOptions={
             availableFilms ? availableFilms.map((film) => film.title) : []
           }
