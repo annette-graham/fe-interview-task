@@ -19,23 +19,83 @@ interface FilmContextType {
 
 const FilmContext = createContext<FilmContextType | undefined>(undefined);
 
+const STORAGE_KEYS = {
+  REVIEWED_FILMS: 'mubi_reviewed_films',
+  AVAILABLE_FILMS: 'mubi_available_films',
+};
+
 function FilmContextProvider({ children }: { children: ReactNode }) {
   const [availableFilms, setAvailableFilms] = useState<Film[]>([]);
   const [reviewedFilms, setReviewedFilms] = useState<Film[]>([]);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    const fetchFilmLogs = async () => {
+    const loadFromStorage = () => {
+      try {
+        const storedReviewed = localStorage.getItem(
+          STORAGE_KEYS.REVIEWED_FILMS
+        );
+        const storedAvailable = localStorage.getItem(
+          STORAGE_KEYS.AVAILABLE_FILMS
+        );
+
+        if (storedReviewed) {
+          setReviewedFilms(JSON.parse(storedReviewed));
+        }
+
+        if (storedAvailable) {
+          setAvailableFilms(JSON.parse(storedAvailable));
+          setIsInitialized(true);
+        } else {
+          // Only fetch from API if nothing in localStorage
+          fetchFilmLogs();
+        }
+      } catch (error) {
+        console.error('Error loading from localStorage:', error);
+        // Fallback to fetching from API
+        fetchFilmLogs();
+      }
+    };
+
+    loadFromStorage();
+  }, []);
+
+  const fetchFilmLogs = async () => {
+    try {
       const response = await fetch(API_URL);
       const data: Film[] = await response.json();
       setAvailableFilms(data);
-    };
+      setIsInitialized(true);
+    } catch (error) {
+      console.error('Error fetching films:', error);
+    }
+  };
 
-    fetchFilmLogs();
-  }, []);
+  // Save reviewedFilms to localStorage whenever it changes
+  useEffect(() => {
+    if (isInitialized) {
+      localStorage.setItem(
+        STORAGE_KEYS.REVIEWED_FILMS,
+        JSON.stringify(reviewedFilms)
+      );
+    }
+  }, [reviewedFilms, isInitialized]);
+
+  // Save availableFilms to localStorage whenever it changes
+  useEffect(() => {
+    if (isInitialized) {
+      localStorage.setItem(
+        STORAGE_KEYS.AVAILABLE_FILMS,
+        JSON.stringify(availableFilms)
+      );
+    }
+  }, [availableFilms, isInitialized]);
 
   const addReview = (newFilm: Film) => {
     setReviewedFilms((prev) => [...prev, newFilm]);
-    setAvailableFilms((prev) => prev && prev.filter((film) => film.id !== newFilm.id));
+    setAvailableFilms(
+      (prev) => prev && prev.filter((film) => film.id !== newFilm.id)
+    );
   };
 
   const deleteReview = (filmId: string) => {
