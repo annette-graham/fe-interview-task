@@ -13,4 +13,5 @@ export type Film = {
   image_url: string;
   video_url: string;
   review_text?: string;
+  rating?: number;
 };

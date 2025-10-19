@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import Rating from '@mui/material/Rating';
 
 import { useFilms } from '../../context/film-context';
 import HeaderBar from '../../components/header-bar';
@@ -30,7 +31,7 @@ function ReviewDetails() {
       </Container>
     );
   }
-  const { title, release_year, review_text, cast, image_url } = film;
+  const { title, rating, release_year, review_text, cast, image_url } = film;
 
   const director = cast.find((member) =>
     member.credits.includes('Director')
@@ -56,7 +57,15 @@ function ReviewDetails() {
       />
 
       <Container sx={{ height: '100vh' }}>
-        <Box sx={{ mt: 4, display: 'flex', justifyContent: 'space-between' }}>
+        <Box
+          sx={{
+            mt: 4,
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexDirection: { xs: 'column', sm: 'row' },
+            gap: { xs: 4, sm: 0 },
+          }}
+        >
           <Box>
             <IconButton
               aria-label='go-back'
@@ -69,16 +78,21 @@ function ReviewDetails() {
               {title}
             </Typography>
             <Typography variant='body1' sx={{ mt: 2 }}>
-              {' '}
               {director || 'Director Unknown'}
             </Typography>
             <Typography variant='body1'>{release_year}</Typography>
+            <Rating sx={{ mt: 2 }} value={rating} precision={0.5} readOnly />
           </Box>
-          <Box sx={{ width: '700px' }}>
+          <Box
+            sx={{
+              width: { xs: '100%', sm: '70%', md: '50%', lg: '700px' },
+              mt: { xs: 4, sm: 0 },
+            }}
+          >
             <img
               src={image_url}
               alt={title}
-              style={{ width: '100%', height: 'auto' }}
+              style={{ width: '100%', height: 'auto', maxWidth: '100%' }}
             />
           </Box>
         </Box>

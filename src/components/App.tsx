@@ -42,6 +42,7 @@ const App = () => {
     const newReview = {
       ...selectedFilm,
       review_text: formValues.review_text as string,
+      rating: formValues.rating as number,
     };
     addReview(newReview);
     handleCloseForm();

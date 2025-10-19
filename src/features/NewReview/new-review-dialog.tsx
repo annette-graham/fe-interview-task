@@ -6,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
+import Rating from '@mui/material/Rating';
 
 function NewReviewDialog({
   autoCompleteOptions,
@@ -23,7 +24,7 @@ function NewReviewDialog({
       <DialogTitle sx={{ bgcolor: 'primary.main' }}>New Review</DialogTitle>
       <DialogContent>
         <form onSubmit={onSubmit} id='new-review-form'>
-          <Box>
+          <Box sx={{ display: 'flex', flexDirection: 'column'}}>
             <Autocomplete
               id='film-search'
               sx={{ width: 300, mt: 4, mb: 2 }}
@@ -50,6 +51,12 @@ function NewReviewDialog({
               multiline
               rows={4}
               placeholder='Your review...'
+            />
+            <Rating
+              id='film-rating'
+              name='rating'
+              precision={0.5}
+              size='large'
             />
           </Box>
         </form>

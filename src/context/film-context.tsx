@@ -42,11 +42,12 @@ function FilmContextProvider({ children }: { children: ReactNode }) {
     const deletedFilm = reviewedFilms.find((film) => film.id === filmId);
     if (deletedFilm) {
       setReviewedFilms((prev) => prev.filter((f) => f.id !== filmId));
-      // Remove review_text before adding back to available films. TODO: add it back in alphabetical order
-      const { review_text, ...filmWithoutReview } = deletedFilm;
+      // Remove review_text and rating before adding back to available films. TODO: add it back in alphabetical order
+      const { review_text, rating, ...filmWithoutReview } = deletedFilm;
       setAvailableFilms((prev) => prev && [...prev, filmWithoutReview as Film]);
     }
   };
+
   return (
     <FilmContext.Provider
       value={{

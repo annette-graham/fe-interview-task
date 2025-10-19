@@ -5,25 +5,35 @@ import CardMedia from '@mui/material/CardMedia';
 import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Rating from '@mui/material/Rating';
 
 import type { Film } from '../../types';
 
 function ReviewCard({ film }: { film: Film }) {
   const navigate = useNavigate();
+  const {
+    cast,
+    id,
+    image_url,
+    rating,
+    release_year,
+    review_text,
+    title,
+  } = film;
 
-  const director = film.cast.find((member) =>
+  const director = cast.find((member) =>
     member.credits.includes('Director')
   )?.name;
 
   const handleReadMore = () => {
-    navigate(`/${film.id}`, { state: film });
+    navigate(`/${id}`, { state: film });
   };
 
   return (
     <Card
       sx={{
         width: 350,
-        height: 500,
+        height: 550,
         marginBottom: 2,
         display: 'flex',
         flexDirection: 'column',
@@ -32,20 +42,21 @@ function ReviewCard({ film }: { film: Film }) {
       <CardMedia
         component='img'
         height='240'
-        image={film.image_url}
-        alt={film.title}
+        image={image_url}
+        alt={title}
         sx={{ flexShrink: 0 }}
       />
       <CardContent sx={{ flexGrow: 1, overflow: 'hidden' }}>
-        <Typography variant='h6'>{film.title}</Typography>
+        <Typography variant='h6'>{title}</Typography>
         <Typography variant='body2'>
           {director || 'Director Unknown'}
         </Typography>
-        <Typography variant='body2'>{film.release_year}</Typography>
+        <Typography variant='body2'>{release_year}</Typography>
+        <Rating sx={{mt: 2}} value={rating} precision={0.5} readOnly size="small" />
         <Typography variant='body2' sx={{ mt: 4, wordBreak: 'break-word' }}>
-          {film.review_text && film.review_text.length > 100
-            ? `${film.review_text.substring(0, 190)}...`
-            : film.review_text}
+          {review_text && review_text.length > 100
+            ? `${review_text.substring(0, 190)}...`
+            : review_text}
         </Typography>
       </CardContent>
       <CardActions sx={{ flexShrink: 0 }}>
